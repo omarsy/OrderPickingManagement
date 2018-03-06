@@ -1,0 +1,13 @@
+{
+    "poids": 123,
+   "zoneProduitStock":{
+   "alleeX":12
+   "alleeY":10,
+   "produits":{}
+   },
+   "zoneProduitPicking":{
+   "alleeX":12
+   "alleeY":10,
+   "produits":{}
+   }
+   }
