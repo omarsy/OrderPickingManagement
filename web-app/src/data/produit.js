@@ -38,13 +38,13 @@ const produit = {
     "1":{
         "zoneProduitStock":{
             //int
-            "allee": 1,
+            "allee": 2,
             //int
-            "section":1,
+            "section":2,
             //int
-            "etage":1,
+            "etage":2,
             //int
-            "etageSection":1,
+            "etageSection":2,
             "produits":{
                 "om0":true,
                 "om1":true
@@ -53,13 +53,13 @@ const produit = {
 
         "zoneProduitPicking":{
             //int
-            "allee": 1,
+            "allee": 2,
             //int
-            "section":1,
+            "section":2,
             //int
-            "etage":1,
+            "etage":2,
             //int
-            "etageSection":1,
+            "etageSection":2,
             "quantite":3
         },
         //string
@@ -105,13 +105,13 @@ const produit = {
     "3":{
         "zoneProduitStock":{
             //int
-            "allee": 3,
+            "allee": 4,
             //int
-            "section":3,
+            "section":4,
             //int
-            "etage":3,
+            "etage":34,
             //int
-            "etageSection":3,
+            "etageSection":4,
             "produits":{
                 "el3":true,
                 "el4":true
@@ -120,13 +120,13 @@ const produit = {
 
         "zoneProduitPicking":{
             //int
-            "allee": 3,
+            "allee": 4,
             //int
-            "section":3,
+            "section":4,
             //int
-            "etage":3,
+            "etage":4,
             //int
-            "etageSection":3,
+            "etageSection":4,
             "quantite":15
         },
         //string
@@ -137,13 +137,13 @@ const produit = {
     "4":{
         "zoneProduitStock":{
             //int
-            "allee": 3,
+            "allee": 5,
             //int
-            "section":3,
+            "section":5,
             //int
-            "etage":3,
+            "etage":5,
             //int
-            "etageSection":3,
+            "etageSection":5,
             "produits":{
                 "el3":true,
                 "el4":true
@@ -152,13 +152,13 @@ const produit = {
 
         "zoneProduitPicking":{
             //int
-            "allee": 3,
+            "allee": 5,
             //int
-            "section":3,
+            "section":5,
             //int
-            "etage":3,
+            "etage":5,
             //int
-            "etageSection":3,
+            "etageSection":5,
             "quantite":17
         },
         //string
@@ -170,13 +170,13 @@ const produit = {
     "5":{
         "zoneProduitStock":{
             //int
-            "allee": 3,
+            "allee": 6,
             //int
-            "section":3,
+            "section":6,
             //int
-            "etage":3,
+            "etage":6,
             //int
-            "etageSection":3,
+            "etageSection":6,
             "produits":{
                 "el3":true,
                 "el4":true
@@ -185,13 +185,13 @@ const produit = {
 
         "zoneProduitPicking":{
             //int
-            "allee": 3,
+            "allee": 6,
             //int
-            "section":3,
+            "section":6,
             //int
-            "etage":3,
+            "etage":6,
             //int
-            "etageSection":3,
+            "etageSection":6,
             "quantite":12
         },
         //string
@@ -202,13 +202,13 @@ const produit = {
   "6":{
         "zoneProduitStock":{
             //int
-            "allee": 3,
+            "allee": 7,
             //int
-            "section":3,
+            "section":7,
             //int
-            "etage":3,
+            "etage":7,
             //int
-            "etageSection":3,
+            "etageSection":7,
             "produits":{
                 "el3":true,
                 "el4":true
@@ -217,13 +217,13 @@ const produit = {
 
         "zoneProduitPicking":{
             //int
-            "allee": 3,
+            "allee": 7,
             //int
-            "section":3,
+            "section":7,
             //int
-            "etage":3,
+            "etage":7,
             //int
-            "etageSection":3,
+            "etageSection":7,
             "quantite":11
         },
         //string
@@ -234,13 +234,13 @@ const produit = {
     "7":{
         "zoneProduitStock":{
             //int
-            "allee": 3,
+            "allee": 8,
             //int
-            "section":3,
+            "section":8,
             //int
-            "etage":3,
+            "etage":8,
             //int
-            "etageSection":3,
+            "etageSection":8,
             "produits":{
                 "el3":true,
                 "el4":true
@@ -249,13 +249,13 @@ const produit = {
 
         "zoneProduitPicking":{
             //int
-            "allee": 3,
+            "allee": 8,
             //int
-            "section":3,
+            "section":8,
             //int
-            "etage":3,
+            "etage":8,
             //int
-            "etageSection":3,
+            "etageSection":8,
             "quantite":7
         },
         //string
@@ -266,13 +266,13 @@ const produit = {
     "8":{
         "zoneProduitStock":{
             //int
-            "allee": 3,
+            "allee": 9,
             //int
-            "section":3,
+            "section":9,
             //int
-            "etage":3,
+            "etage":9,
             //int
-            "etageSection":3,
+            "etageSection":9,
             "produits":{
                 "el3":true,
                 "el4":true
@@ -281,13 +281,13 @@ const produit = {
 
         "zoneProduitPicking":{
             //int
-            "allee": 3,
+            "allee": 9,
             //int
-            "section":3,
+            "section":9,
             //int
-            "etage":3,
+            "etage":9,
             //int
-            "etageSection":3,
+            "etageSection":9,
             "quantite":14
         },
         //string
@@ -298,13 +298,13 @@ const produit = {
     "9":{
         "zoneProduitStock":{
             //int
-            "allee": 3,
+            "allee": 10,
             //int
-            "section":3,
+            "section":10,
             //int
-            "etage":3,
+            "etage":10,
             //int
-            "etageSection":3,
+            "etageSection":10,
             "produits":{
                 "el3":true,
                 "el4":true
@@ -313,13 +313,13 @@ const produit = {
 
         "zoneProduitPicking":{
             //int
-            "allee": 3,
+            "allee": 10,
             //int
-            "section":3,
+            "section":10,
             //int
-            "etage":3,
+            "etage":10,
             //int
-            "etageSection":3,
+            "etageSection":10,
             "quantite":23
         },
         //string
