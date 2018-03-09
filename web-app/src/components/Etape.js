@@ -10,8 +10,8 @@ class Etape  extends React.Component{
     }
     render() {
         
-    const etapes = this.props.steps.map((item,key) => 
-        <Steps.Step key={key} status={ item.isFinish ? 'finish' : 'wait'} title={item.alleeX +","+ item.alleeY} />
+    const etapes = this.props.steps && this.props.steps.map((item,key) => 
+        <Steps.Step key={key} status={ item.produits.find(item => item.quantite !=item.quantitePrise) ==null ? 'finish' : 'wait'} title={item.allee +","+ item.section} />
     );
         return (
             <Steps size="small" direction="vertical">

@@ -328,3 +328,5 @@ const produit = {
         "poids":15
     },
 }
+
+export default produit;

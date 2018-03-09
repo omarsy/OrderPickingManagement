@@ -41,3 +41,5 @@ const commande = {
     preparateur:"",
     },  
 }
+
+export default commande;

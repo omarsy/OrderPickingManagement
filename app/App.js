@@ -1,59 +1,32 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react';
 import {
-  Platform,
-  StyleSheet,
-  Text,
   View
 } from 'react-native';
-import QRCodeScanner from 'react-native-qrcode-scanner';
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
-
+import Login from './component/login/Login';
+import Application from './component/Application'
+import DataManager from './firebase/DataManager'
 
 export default class App extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: DataManager.currentUser()
+    }
+    console.log(DataManager.currentUser());
+    DataManager.callbackUserChange = this.userChange;
+  }
+  userChange = (user) => {
+    console.log(user);
+    this.setState({
+      user: user
+    })
+  }
   render() {
+    const isUser = (this.state.user !== null)
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
-        <QRCodeScanner onRead={(e) => (console.log('QR code scanned!', e))}/>
-      </View>
+      
+        (isUser)?<Application/>:<Login/>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});

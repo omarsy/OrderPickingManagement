@@ -1,7 +1,7 @@
 import { Table } from 'antd'
 import React from 'react'
 import Etape from './Etape'
-import DataManager from '../firebase/manage'
+import DataManager from '../firebase/DataManager'
 
 class Produits extends React.Component {
 
@@ -12,21 +12,30 @@ class Produits extends React.Component {
         key: 'nom',
     }, {
         title: 'Quantité',
-        dataIndex: 'amount',
-        key: 'amount',
+        dataIndex: 'quantite',
+        key: 'quantite',
     }];
     constructor(props) {
         super(props);        
-        this.dataManager = DataManager.getDataManager();
-        this.dataManager.callbackProduit = this.dataChange;
         this.state = {
-            datasource: this.dataManager.dataProduit,
+            dataSource: DataManager.dataProduit,
             columns: this.columnnProduit 
         }
         
 
     }
+    componentDidMount() {
+        DataManager.callbackProduit = this.dataChange;
+        this.setState ( {
+            dataSource: DataManager.dataProduit,
+        })
+    }
+    componentWillUnmount(){
+        DataManager.callbackProduit = (data)=>{};
+    }
+    
     dataChange = (data) =>{
+        console.log(data,this);
         this.setState({
             dataSource : data
         })
@@ -61,10 +70,9 @@ class Parcours extends React.Component {
     ];
     constructor(props) {
         super(props);
-        this.dataManager = DataManager.getDataManager();
-        this.dataManager.callbackParcours = this.dataChange; 
+        DataManager.callbackParcours = this.dataChange; 
         this.state = {
-            dataSource: this.dataManager.dataParcours,
+            dataSource: DataManager.dataParcours,
             columns: this.columnnParcours 
         }
 

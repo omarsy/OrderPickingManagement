@@ -42,4 +42,4 @@ const lieuPicking = {
         distance: 25
     },
 }
-
+ export default lieuPicking;
