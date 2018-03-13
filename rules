@@ -1,0 +1,274 @@
+{
+    "rules": {
+        "lieuPicking": {
+            "allee": {
+                "$allee": {
+                    "section": {
+                        "$section": {
+                            ".write": "true",
+                            ".validate": 
+"newData.hasChildren(['vers'])",
+                            "vers": {
+                                "allee": {
+                                    "$allee": {
+                                        "section": {
+                                            "$section": {
+                                                ".validate": 
+"newData.hasChildren(['distance'])",
+                                                "distance": {
+                                                    ".validate": 
+"newData.isNumber()",
+                                                },
+                                                "$other": {
+                                                    ".validate": false
+                                                },
+                                                ".read": "auth.uid !== 
+null"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "produit": {
+            // any logged in user can get a list of room names
+            ".read": "auth.uid !== null",
+            "$product_id": {
+                ".read": "auth.uid !== null",
+                // this is just for documenting the structure of rooms, 
+since
+                // they are read-only and no write rule allows this to 
+be set
+                ".write": "auth.uid !== null",
+                ".validate": 
+"newData.hasChildren(['zoneProduitStock','zoneProduitPicking','poids','nom'])",
+                "zoneProduitStock": {
+                    ".validate": 
+"newData.hasChildren(['allee','section','etage','etageSection'])",
+                    "produits": {
+                        "$others": {
+                            ".validate": "newData.isBoolean()"
+                        }
+                    },
+                    "allee": {
+                        ".validate": "true"
+                    },
+                    "section": {
+                        ".validate": "true"
+                    },
+                    "etage": {
+                        ".validate": "true"
+                    },
+                    "etageSection": {
+                        ".validate": "true"
+                    },
+                    "$others": {
+                        ".validate": false
+                    }
+                },
+                "zoneProduitPicking": {
+                    ".validate": 
+"newData.hasChildren(['allee','section','etage','etageSection']) && 
+root.child('lieuPicking/allee/'+newData.child('allee').val()+'/section/'+newData.child('section').val()).exists()",
+                    "quantite": {
+                        ".validate": "newData.isNumber()"
+                    },
+                    "allee": {
+                        ".validate": "true"
+                    },
+                    "section": {
+                        ".validate": "true"
+                    },
+                    "etageSection": {
+                        ".validate": "true"
+                    },
+                    "etage": {
+                        ".validate": "true"
+                    },
+                    "$others": {
+                        ".validate": false
+                    }
+                },
+                "poids": {
+                    ".validate": "newData.isNumber()"
+                },
+                "nom": {
+                    ".validate": "newData.isString() && 
+newData.val().length > 1"
+                }
+            }
+        },
+        "commande": {
+            ".read": "auth.uid !== null",
+            ".write": "auth.uid !== null",
+            "$commandeId": {
+                "produit": {
+                    "$produit": {
+                        ".validate": "newData.hasChildren(['quantite']) 
+&& root.child('produit/'+$produit).exists()",
+                        "quantite": {
+                            ".validate": "newData.isNumber()"
+                        },
+                        "preparateur": {
+                            ".validate": 
+"root.child('preparateur/'+newData.val()).exists()"
+                        },
+                        "poids": {
+                            ".validate": "newData.isNumber()"
+                        }
+                    }
+                }
+            }
+        },
+        "preparateur": {
+            ".read": "auth.uid !== null",
+            "$preparateurId": {
+                ".read": "auth.uid !== null",
+                ".write": "auth.uid !== null",
+                ".validate": 
+"newData.hasChildren(['nom','prenom','sexe','capaciteMax'])",
+                "nom": {
+                    ".validate": "newData.isString() && 
+newData.val().length > 1"
+                },
+                "prenom": {
+                    ".validate": "newData.isString() && 
+newData.val().length > 1"
+                },
+                "sexe": {
+                    ".validate": "newData.val() === 'M' || newData.val() 
+=== 'F'",
+                },
+                "capaciteMax": {
+                    ".validate": "newData.isNumber()"
+                },
+                "regroupementCommande": {
+                    "$regroupementCommandeId": {
+                        "commande": {
+                            "$others": {
+                                ".validate": 
+"root.child('commande/'+newData.val()).exists()",
+                            }
+                        },
+                        "steps": {
+                            "$others": {
+                                ".validate": 
+"newData.hasChildren(['allee','section']) && 
+root.child('lieuPicking/allee/'+newData.child('allee').val()+'/section/'+newData.child('section').val()).exists()",
+                                "allee": {
+                                    ".validate": true
+                                },
+                                "section": {
+                                    ".validate": true
+                                },
+                                "produits": {
+                                    "$others": {
+                                        ".validate": 
+"root.child('produit/'+$others).exists() && 
+newData.hasChildren(['nom','quantite','quantitePrise','etage','etageSection'])",
+                                        "nom": {
+                                            ".validate": 
+"newData.isString()"
+                                        },
+                                        "etage": {
+                                            ".validate": "true"
+                                        },
+                                        "etageSection": {
+                                            ".validate": "true"
+                                        },
+                                        "quantite": {
+                                            ".validate": 
+"newData.isNumber()"
+                                        },
+                                        "quantitePrise": {
+                                            ".validate": 
+"newData.isNumber()"
+                                        },
+                                        "$others": {
+                                            ".validate": false
+                                        }
+                                    }
+                                },
+                                "$others": {
+                                    ".validate": false
+                                }
+                            }
+                        }
+                    }
+                },
+                "$others": {
+                    ".validate": false
+                }
+            }
+        },
+        "members": {
+            // I can join or leave any room (otherwise it would be a 
+boring demo)
+            // I can have a different name in each room just for fun
+            "$room_id": {
+                // any member can read the list of member names
+                ".read": "auth.uid !== null",
+                // room must already exist to add a member
+                ".validate": 
+"root.child('room_names/'+$room_id).exists()",
+                "$user_id": {
+                    ".write": "auth.uid === $user_id",
+                    ".validate": "newData.isString() && 
+newData.val().length > 0 && newData.val().length < 20"
+                }
+            }
+        },
+        "messages": {
+            "$room_id": {
+                // the list of messages for a room can be read by any 
+member
+                ".read": 
+"root.child('members/'+$room_id+'/'+auth.uid).exists()",
+                // room we want to write a message to must be valid
+                ".validate": 
+"root.child('room_names/'+$room_id).exists()",
+                "$message_id": {
+                    // a new message can be created if it does not 
+exist, but it
+                    // cannot be modified or deleted
+                    // any member of a room can write a new message
+                    ".write": 
+"root.child('members/'+$room_id+'/'+auth.uid).exists() && !data.exists() 
+&& newData.exists()",
+                    // the room attribute must be a valid key in 
+room_names/ (the room must exist)
+                    // the object to write must have a name, message, 
+and timestamp
+                    ".validate": "newData.hasChildren(['user', 
+'message', 'timestamp'])",
+                    // the message must be written by logged in user
+                    "user": {
+                        ".validate": "newData.val() === auth.uid"
+                    },
+                    // the message must be longer than 0 chars and less 
+than 50
+                    "message": {
+                        ".validate": "newData.isString() && 
+newData.val().length > 0 && newData.val().length < 50"
+                    },
+                    // messages cannot be added in the past or the 
+future
+                    // clients should use 
+firebase.database.ServerValue.TIMESTAMP
+                    // to ensure accurate timestamps
+                    "timestamp": {
+                        ".validate": "newData.val() <= now"
+                    },
+                    // no other fields can be included in a message
+                    "$other": {
+                        ".validate": false
+                    }
+                }
+            }
+        }
+    }
+}

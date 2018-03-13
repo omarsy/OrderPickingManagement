@@ -7,6 +7,7 @@ class DataManager {
     callbackPreparation = (data) => { console.log(data, "DataManager") };
     dataPreparation = null;
     currentStep = null;
+    preparateur = null;
     configure() {
         var config = {
             apiKey: "AIzaSyA6lTOn93YbkhdjSGavm5PMzv-zxZKZqSY",
@@ -33,6 +34,15 @@ class DataManager {
         return DataManager.instance;
     }
 
+    deconnexion(){
+        firebase.auth().signOut().then(function() {
+            DataManager.getDataManager().callbackUserChange(null)
+            alert('Signed Out');
+
+          }, function(error) {
+            alert(error.message);
+          });
+    }
     authentification(email, password) {
 
         console.log(email)
@@ -45,8 +55,13 @@ class DataManager {
                 // New sign-in will be persisted with session persistence.
 
                 return firebase.auth().signInWithEmailAndPassword(email, password).then(
-                    (user) => { DataManager.getDataManager().callbackUserChange(user) }
-                ).catch((error) => { console.log(error) });
+                    (user) => {
+                        DataManager.getDataManager().callbackUserChange(user)
+                        firebase.database().ref('preparateur/' + user.uid).once("value").then((value) => {
+                            DataManager.getDataManager().preparateur = value;
+                        })
+                    }
+                ).catch((error) => { alert(error.message) });
             })
             .catch(function (error) {
                 // Handle Errors here.
@@ -83,7 +98,7 @@ class DataManager {
     }
 
     getCurrentStep(data) {
-        let index = data.val().steps.findIndex(item => (item.produits.find(item => item.quantite > item.quantitePrise) != null));
+        let index = data.val().steps.findIndex(item => (Object.keys(item.produits).find(key => item.produits[key].quantite > item.produits[key].quantitePrise) != null));
         let step = (index > -1) ? data.val().steps[index] : null
         return step && {
             key: index,
@@ -93,17 +108,52 @@ class DataManager {
         }
     }
     prendreProduit(id) {
-        let user = this.currentUser()
-        // Write the new post's data simultaneously in the posts list and the user's post list.
-        var update = {};
-        update['preparateur/' + user.uid + '/regroupementCommande/'
-            + this.dataPreparation.key +
-            '/steps/' + this.currentStep.key + '/produits/' +
-            id + '/quantitePrise'] = this.currentStep.produits[id].quantitePrise + 1
+        if (this.currentStep.produits[id]) {
+            let user = this.currentUser()
+            var update = {};
+            console.log(this.currentStep, id);
+            let urlQuantite = 'produit/' + id + '/zoneProduitPicking/quantite'
+            update['preparateur/' + user.uid + '/regroupementCommande/'
+                + this.dataPreparation.key +
+                '/steps/' + this.currentStep.key + '/produits/' +
+                id + '/quantitePrise'] = this.currentStep.produits[id].quantitePrise + 1
 
+            firebase.database().ref(urlQuantite).once('value').then(function (snapshot) {
+                update[urlQuantite] = snapshot.val() - 1;
+                firebase.database().ref().update(update);
+            });
+        } else {
+            alert("Produit : " + id + " ne doit pas se trouver dans votre placement recent")
+        }
 
-        return firebase.database().ref().update(update);
     }
+    alertProduit(id){
+        if (this.currentStep.produits[id]) {
+            let update = {}
+            update['produit/' + id + '/zoneProduitPicking/quantite'] = 0;
+            firebase.database().ref().update(update);
+        }else {
+            alert("Produit : " + id + " ne doit pas se trouver dans votre placement recent")
+        }
+    }
+    commencerUnNouveau() {
 
+        console.log('GET', 'http://localhost:5000/ecommerce-987a2/us-central1/calcul?user=' + this.preparateur.key + '&poids=' + this.preparateur.val().capaciteMax);
+        var request = new XMLHttpRequest();
+        request.onreadystatechange = (e) => {
+            if (request.readyState !== 4) {
+                return;
+            }
+
+            if (request.status === 200) {
+                console.log('success', request.responseText);
+            } else {
+                console.warn('error');
+            }
+        };
+
+        request.open('GET', 'https://us-central1-ecommerce-987a2.cloudfunctions.net/calcul?user=' + this.preparateur.key + '&poids=' + this.preparateur.val().capaciteMax);
+        request.send();
+    }
 }
 export default DataManager.getDataManager();

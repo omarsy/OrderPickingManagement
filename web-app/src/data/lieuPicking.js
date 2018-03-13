@@ -2,11 +2,11 @@ const lieuPicking = {
 
     "allee/1/section/1/vers/allee/1/section/2":{
         //int
-        distance: 22
+        distance: 5
     },
     "allee/1/section/2/vers/allee/2/section/2":{
         //int
-        distance: 22
+        distance: 10
     },
     
     "allee/2/section/1/vers/allee/3/section/1":{
@@ -19,116 +19,32 @@ const lieuPicking = {
     },
     "allee/2/section/2/vers/allee/2/section/1":{
         //int
-        distance: 10
+        distance: 5
     },
 
     "allee/3/section/1/vers/allee/4/section/1":{
         //int
-        distance: 12
+        distance: 10
     },
     "allee/3/section/1/vers/allee/3/section/2":{
         //int
-        distance: 12
+        distance: 5
     },
     "allee/3/section/2/vers/allee/4/section/2":{
         //int
-        distance: 12
+        distance: 10
     },
     "allee/4/section/1/vers/allee/5/section/1":{
         //int
-        distance: 17
+        distance: 10
     },
     "allee/4/section/1/vers/allee/4/section/2":{
         //int
-        distance: 17
+        distance: 5
     },
     "allee/4/section/2/vers/allee/5/section/2":{
         //int
         distance: 17
-    },
-    "allee/5/section/1/vers/allee/6/section/1":{
-        //int
-        distance: 18
-    },
-    "allee/5/section/2/vers/allee/6/section/1":{
-        //int
-        distance: 10
-    },
-    "allee/5/section/1/vers/allee/6/section/2":{
-        //int
-        distance: 10
-    },
-    "allee/6/section/1/vers/allee/7/section/1":{
-        //int
-        distance: 13
-    },
-    "allee/6/section/1/vers/allee/7/section/2":{
-        //int
-        distance: 10
-    },
-    "allee/6/section/2/vers/allee/7/section/2":{
-        //int
-        distance: 10
-    },
-    "allee/7/section/1/vers/allee/8/section/1":{
-        //int
-        distance: 16
-    },
-    "allee/7/section/1/vers/allee/8/section/2":{
-        //int
-        distance: 10
-    },
-    "allee/7/section/2/vers/allee/8/section/2":{
-        //int
-        distance: 10
-    },
-    "allee/8/section/1/vers/allee/9/section/1":{
-        //int
-        distance: 47
-    },
-    "allee/8/section/1/vers/allee/9/section/2":{
-        //int
-        distance: 47
-    },
-    "allee/8/section/2/vers/allee/9/section/2":{
-        //int
-        distance: 10
-    },
-    "allee/9/section/1/vers/allee/10/section/1":{
-        //int
-        distance: 18
-    },
-    "allee/9/section/1/vers/allee/10/section/2":{
-        //int
-        distance: 18
-    },
-    "allee/9/section/2/vers/allee/10/section/2":{
-        //int
-        distance: 10
-    },
-    "allee/9/section/2/vers/allee/10/section/1":{
-        //int
-        distance: 10
-    },
-    "allee/9/section/2/vers/allee/10/section/2":{
-        //int
-        distance: 18
-    },
-    "allee/10/section/1/vers/allee//section/2":{
-        //int
-        distance: 25
-    },
-    "allee/10/section/2/vers/allee/2/section/1":{
-        //int
-        distance: 10
-    },
-    "allee/10/section/2/vers/allee/2/section/2":{
-        //int
-        distance: 10
-    },
-    "allee/10/section/1/vers/allee/2/section/1":{
-        //int
-        distance: 10
-    },
+    }
 }
-
+ export default lieuPicking;

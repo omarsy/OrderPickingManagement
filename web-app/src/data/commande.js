@@ -1,45 +1,90 @@
 const commande = {
-    "0/produit/0" :{
-        quantite: 2,
-        preparateur:"",
+    "com0": {
+        poids: 24,
+        produit: {
+            "prod0": {
+                quantite: 2,
+            }
+        },
+        preparateur:"QIAzC8BtHDYjeRsE7poDmbQVPd53"
     },
-    "1/produit/1" :{
-        quantite: 3,
-        preparateur:"",
+    "com1": {
+        poids: 40,
+        produit: {
+            "prod1": {
+                quantite: 3,
+            }
+        },
     },
-    "2/produit/2" :{
-        quantite: 5,
-        preparateur:"",
+    "com2": {
+        poids: 36,
+        produit: {
+            "prod2": {
+                quantite: 5,
+            }
+        },
     },
-    "3/produit/3" :{
-        quantite: 15,
-        preparateur:"",
+    "com3": {
+        poids: 12,
+        produit: {
+            "prod3": {
+                quantite: 1,
+            }
+        },
     },
-    "4/produit/4" :{
-    quantite: 17,
-    preparateur:"",
-},  
-    "5/produit/5" :{
-    quantite: 12,
-    preparateur:"",
+    "com4": {
+        poids: 24,
+        produit: {
+            "prod4": {
+                quantite: 2,
+            }
+        },
+
+    },
+    "com5": {
+        poids: 36,
+        produit: {
+            "prod5": {
+                quantite: 3,
+            }
+        },
+
     },
 
-    "6/produit/6" :{
-    quantite: 11,
-    preparateur:"",
-    },  
-    "7/produit/7" :{
-    quantite: 7,
-    preparateur:"",
-    },  
-    "8/produit/8" :{
-    quantite: 14,
-    preparateur:"",
-    },  
-    "9/produit/9" :{
-    quantite: 23,
-    preparateur:"",
-    },  
+    "com6": {
+        poids: 12,
+        produit: {
+            "prod6": {
+                quantite: 1,
+            }
+        },
+
+    },
+    "com7": {
+        poids: 24,
+        produit: {
+            "prod7": {
+                quantite: 2,
+            }
+        },
+    },
+    "com8": {
+        poids: 12,
+        produit: {
+            "prod8": {
+                quantite: 1,
+            }
+        },
+
+    },
+    "com9": {
+        poids: 24,
+        produit: {
+            "prod9": {
+                quantite: 2,
+            }
+        },
+    },
 }
 
 export default commande;

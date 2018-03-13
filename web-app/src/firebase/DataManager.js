@@ -1,5 +1,4 @@
 import * as firebase from "firebase"
-
 class DataManager {
 
     static instance = null;
@@ -8,6 +7,7 @@ class DataManager {
     dataParcours = [];
     callbackProduit = (data) => { };
     callbackParcours = (data) => { };
+    callbackAlert = (data) => { };
     configure() {
         var config = {
             apiKey: "AIzaSyA6lTOn93YbkhdjSGavm5PMzv-zxZKZqSY",
@@ -34,7 +34,7 @@ class DataManager {
         //         console.log(error);
         //     });
 
-       ((manage)=> firebase.auth().onAuthStateChanged(function (user) {
+        ((manage) => firebase.auth().onAuthStateChanged(function (user) {
             if (user) {
                 console.log(user)
                 manage.user = user;
@@ -67,6 +67,9 @@ class DataManager {
             resultat.nom = clone.nom;
             resultat.quantite = clone.quantite;
             resultat.poids = clone.poids;
+            if(resultat.quantite === 0){
+                this.callbackAlert(resultat)
+            }
             this.callbackProduit(this.dataProduit);
         });
 
@@ -78,7 +81,6 @@ class DataManager {
 
     listenPreparation(dataChange) {
         var preparationsRef = firebase.database().ref('preparateur/');
-        console.log(preparationsRef);
         preparationsRef.on('child_added', (data) => {
             this.dataParcours.push(this.preparationHumanView(data));
             this.callbackParcours(this.dataParcours);
@@ -87,7 +89,10 @@ class DataManager {
 
         preparationsRef.on('child_changed', (data) => {
             var resultat = this.dataParcours.find(item => item.key == data.key);
-            resultat = this.preparationHumanView(data);
+            let tmp = this.preparationHumanView(data);
+            resultat.steps = tmp.steps
+            resultat.nom = tmp.nom
+            resultat.prenom = tmp.prenom
             this.callbackParcours(this.dataParcours);
             console.log('child_changed', data.key, data.val());
         });
@@ -117,7 +122,7 @@ class DataManager {
             key: data.key,
             nom: data.val().nom,
             prenom: data.val().prenom,
-            steps: data.val().regroupementCommande && data.val().regroupementCommande[data.val().regroupementCommande.length - 1].steps
+            steps: data.val().regroupementCommande && data.val().regroupementCommande[Object.keys(data.val().regroupementCommande).pop()].steps
         }
     }
 

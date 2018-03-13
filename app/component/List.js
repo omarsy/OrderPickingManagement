@@ -46,17 +46,17 @@ class List extends Component {
                     {"ALLEE:" + this.props.allee + " , SECTION:" + this.props.section}
                 </Text>
                 {
-                    this.props.produits.map((item, index) => (
+                    Object.keys(this.props.produits).map((key) => (
                         <TouchableOpacity
-                            key={item.id}
-                            style={((item.quantite == 0) ? (styles.containerZero) : (styles.container))}
-                            onPress={() => this.alertItemName(item)}>
+                            key={key}
+                            style={((this.props.produits[key].quantite < this.props.produits[key].quantitePrise) ? (styles.containerZero) : (styles.container))}
+                            onPress={() => this.alertItemName(this.props.produits)}>
 
                             <Text style={styles.text}>
-                                {item.nom + "*" + item.quantite}
+                                {this.props.produits[key].nom + "*" + (this.props.produits[key].quantite - this.props.produits[key].quantitePrise) }
                             </Text>
                             <Text style={styles.text}>
-                                {"ETAGE: " + item.etage + " ,ETAGE SECTION: " + item.etageSection}
+                                {"ETAGE: " + this.props.produits[key].etage + " ,ETAGE SECTION: " + this.props.produits[key].etageSection}
                             </Text>
                         </TouchableOpacity>
                     ))

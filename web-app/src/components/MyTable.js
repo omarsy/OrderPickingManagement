@@ -70,14 +70,27 @@ class Parcours extends React.Component {
     ];
     constructor(props) {
         super(props);
-        DataManager.callbackParcours = this.dataChange; 
         this.state = {
             dataSource: DataManager.dataParcours,
             columns: this.columnnParcours 
         }
 
     }
-
+    componentDidMount() {
+        DataManager.callbackParcours = this.dataChange;
+        this.setState ( {
+            dataSource: DataManager.dataParcours,
+        })
+    }
+    componentWillUnmount(){
+        DataManager.callbackProduit = (data)=>{};
+    }
+    
+    dataChange = (data) =>{
+        this.setState({
+            dataSource : data
+        })
+    }
     render() {
         return (
             <Table dataSource={this.state.dataSource} columns={this.state.columns} />

@@ -9,14 +9,14 @@ const preparateur = {
         regroupementCommande:{
             0:{
                 commande:{
-                    0:0
+                    0:"com0"
                 },
                 steps:{
                     0:{
                         allee:1,
                         section:1,
                         produits:{
-                          0:{
+                            "prod0":{
                             nom: "omar",
                             etage:0,
                             etageSection:0,
