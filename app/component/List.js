@@ -2,42 +2,9 @@ import React, { Component } from 'react'
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native'
 
 class List extends Component {
-    state = {
-        allee: 12,
-        section: 13,
-        produits: [
-            {
-                id: 0,
-                etage: 1,
-                etageSection: 2,
-                nom: "omar",
-                quantite: 2
-            },
-            {
-                id: 1,
-                etage: 1,
-                etageSection: 2,
-                nom: "omar",
-                quantite: 2
-            },
-            {
-                id: 2,
-                etage: 1,
-                etageSection: 2,
-                nom: "omar",
-                quantite: 0
-            },
-            {
-                id: 3,
-                etage: 1,
-                etageSection: 2,
-                nom: "omar",
-                quantite: 2
-            }
-        ]
-    }
+     
     alertItemName = (item) => {
-        alert(item.name)
+        alert(item.nom)
     }
     render() {
         return (
@@ -49,7 +16,7 @@ class List extends Component {
                     Object.keys(this.props.produits).map((key) => (
                         <TouchableOpacity
                             key={key}
-                            style={((this.props.produits[key].quantite < this.props.produits[key].quantitePrise) ? (styles.containerZero) : (styles.container))}
+                            style={((this.props.produits[key].quantite <= this.props.produits[key].quantitePrise) ? (styles.containerZero) : (styles.container))}
                             onPress={() => this.alertItemName(this.props.produits)}>
 
                             <Text style={styles.text}>

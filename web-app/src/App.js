@@ -19,7 +19,7 @@ class App extends Component {
 
     this.state = {
       isParcours: false,
-      alerts: [<Alert key="0" message="ooo" closable={true} type="error" />]
+      alerts: []
     }
   }
   componentDidMount() {
@@ -46,7 +46,7 @@ class App extends Component {
     const isParcours = this.state.isParcours;
     return (
       <Layout>
-        <Layout.Header> Order Picking Management</Layout.Header>
+        <Layout.Header> <h1 style={{color:"#ffffff"}}>Order Picking Management</h1></Layout.Header>
         <Layout>
           <Layout.Sider><Menu theme="dark" onClick={this.toggle}>
             <Menu.Item >Suivre le stock </Menu.Item>

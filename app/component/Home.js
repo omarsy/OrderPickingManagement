@@ -12,6 +12,7 @@ class Home extends Component {
         this.state = {
             step: DataManager.currentStep,
             modalVisible: false,
+            disable:false
         }
     }
     setModalVisible(visible) {
@@ -26,6 +27,9 @@ class Home extends Component {
         })
     }
     prendreProduit = (data) =>{
+        this.state.disable && this.setState({
+            disable: false
+        })
         this.setModalVisible(false);
         if(this.isAlert){
             DataManager.alertProduit(data.data);
@@ -36,14 +40,18 @@ class Home extends Component {
     }
     commencerUnNouveau = () =>{
         DataManager.commencerUnNouveau()
+        this.setState({
+            disable: true
+        })
     }
     render() {
         return (
             <View style={{ height: Dimensions.get('window').height }}>
                 <ScrollView >
-                    {(this.state.step) ? <List allee={this.state.step.allee} section={this.state.step.allee} produits={this.state.step.produits} /> : <Button
+                    {(this.state.step) ? <List allee={this.state.step.allee} section={this.state.step.section} produits={this.state.step.produits} /> : <Button
                                 title="Démarrer un nouveau parcours"
                                 color="#ff0000"
+                                disabled = {this.state.disable}
                                 onPress={() => {
                                     this.commencerUnNouveau();
                                 }}/>}

@@ -20,19 +20,19 @@ class DataManager {
         firebase.initializeApp(config);
         var email = "omarsysy@gmail.com";
         var password = "123456";
-        // firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-        //     .then(function () {
-        //         // Existing and future Auth states are now persisted in the current
-        //         // session only. Closing the window would clear any existing state even
-        //         // if a user forgets to sign out.
-        //         // ...
-        //         // New sign-in will be persisted with session persistence.
-        //         return firebase.auth().signInWithEmailAndPassword(email, password);
-        //     })
-        //     .catch(function (error) {
-        //         // Handle Errors here.
-        //         console.log(error);
-        //     });
+        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+            .then(function () {
+                // Existing and future Auth states are now persisted in the current
+                // session only. Closing the window would clear any existing state even
+                // if a user forgets to sign out.
+                // ...
+                // New sign-in will be persisted with session persistence.
+                return firebase.auth().signInWithEmailAndPassword(email, password);
+            })
+            .catch(function (error) {
+                // Handle Errors here.
+                console.log(error);
+            });
 
         ((manage) => firebase.auth().onAuthStateChanged(function (user) {
             if (user) {

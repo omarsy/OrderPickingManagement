@@ -6,14 +6,27 @@ import DataManager from '../firebase/DataManager'
 class Produits extends React.Component {
 
     dataManager;
-    columnnProduit = [{
+    columnnProduit = [
+        {
+            title: 'Id',
+            dataIndex: 'key',
+            key: 'key',
+        },    
+    {
         title: 'Nom',
         dataIndex: 'nom',
         key: 'nom',
-    }, {
+    },
+    {
+        title: 'Poids',
+        dataIndex: 'poids',
+        key: 'poids',
+    },
+     {
         title: 'Quantité',
         dataIndex: 'quantite',
         key: 'quantite',
+        sorter:function(a,b){return b.quantite-a.quantite;}
     }];
     constructor(props) {
         super(props);        

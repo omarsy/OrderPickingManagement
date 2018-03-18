@@ -11,7 +11,7 @@ class Etape  extends React.Component{
     render() {
         
     const etapes = this.props.steps && this.props.steps.map((item,key) => 
-        <Steps.Step key={key} status={ (Object.keys(item.produits).find(key => {return item.produits[key].quantite != item.produits[key].quantitePrise}) == null) ? 'finish' : 'wait'} title={item.allee +","+ item.section} />
+        <Steps.Step key={key} status={ (Object.keys(item.produits).find(key => {return item.produits[key].quantite != item.produits[key].quantitePrise}) == null) ? 'finish' : 'wait'} title={"Allee: "+item.allee +",Section: "+ item.section} />
     );
         return (
             <Steps size="small" direction="vertical">

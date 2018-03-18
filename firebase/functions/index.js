@@ -1,19 +1,27 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 const eventEmitter = require('events');
-const events = new eventEmitter();
+var events = null;
 admin.initializeApp(functions.config().firebase);
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
 
+/**
+ * Cloud Function
+ */
 exports.calcul = functions.https.onRequest((request, response) => {
 
+    events = new eventEmitter();
     let val = null
     process(request.query.user, request.query.poids)
     return response.send("{}");
 });
 
+/**
+ * Fonction permettant de recupérer l'ensemble des chemins disponible
+ * @param {*} steps 
+ */
 function getAllRoad(steps) {
     admin.database().ref('lieuPicking').once("value").then(
         (value) => {
@@ -22,6 +30,9 @@ function getAllRoad(steps) {
     ).catch((error) => console.error(error));
 }
 
+/** 
+ * Fonction permettant d'avoir les commandes non affectés au preparateur
+*/
 function getAllCommandDispo() {
     admin.database().ref('commande').orderByChild("preparateur").equalTo(null).once("value").then(
         (value) => {
@@ -30,6 +41,11 @@ function getAllCommandDispo() {
     ).catch((error) => console.error(error))
 }
 
+/**
+ * Affete les commandes à un preparateur
+ * @param {*} user 
+ * @param {*} poids 
+ */
 function process(user, poids) {
 
     commandes = null;
@@ -38,27 +54,28 @@ function process(user, poids) {
         makeSteps(commandes);
     })
     events.on("MAKE_STEPS_FINISH", getAllRoad)
-    events.on("ROAD_FINISH", getSteps)
+    events.on("ROAD_FINISH", orderSteps)
     events.on("STEPS_ORDER_FINISH", function (steps) {
         send(user, steps, commandes)
     })
     getAllCommandDispo()
 }
-function send(user, steps, commandes) {
-    keyCommandes = commandes.map(item => item.key)
-    updates = {}
-    for (key in keyCommandes)
-        updates["commande/" + keyCommandes[key] + "/preparateur/"] = user
-    admin.database().ref('preparateur/' + user + '/regroupementCommande').push({
-        commande: keyCommandes,
-        steps: steps
-    })
-    admin.database().ref().update(updates)
-}
+
+/**
+ * Fonction permettant d'affecter des commandes au preparateur selon le probleme du sac à dos
+ * @param {*} poids la capacité maximale du preparateur
+ * @param {*} listCommandes l'ensemble des commandes disponibles
+ */
 function getCommande(poids, listCommandes) {
     let commandes = []
     let currentPoids = 0
+    /**
+     * Pour chaque commande
+     */
     for (let i = 0; i < Object.keys(listCommandes).length; i++) {
+        /**
+         * On verifie est que l'on peut prendre une commande ou pas
+         */
         if (listCommandes[Object.keys(listCommandes)[i]].poids + currentPoids <= poids) {
             currentPoids += listCommandes[Object.keys(listCommandes)[i]].poids
             commandes.push(Object.assign({ key: Object.keys(listCommandes)[i] }, listCommandes[Object.keys(listCommandes)[i]]))
@@ -66,17 +83,19 @@ function getCommande(poids, listCommandes) {
     }
 
     return commandes
-
 }
-function makeSteps(commandes, callback) {
+
+/**
+ * Fonction permettant de transformer les commandes affectées à l'utilisateur en steps
+ * @param {*} commandes 
+ */
+function makeSteps(commandes) {
     steps = []
     let produits = getProduits(commandes);
     {
-        let i = 0
         let keys = Object.keys(produits);
         make = (keys, i, steps, produits) => (admin.database().ref('produit/' + keys[i]).once("value").then(
             (value) => {
-                console.log(steps, value.val());
                 item = steps.find(item => (item.section === value.val().zoneProduitPicking.section && item.allee === value.val().zoneProduitPicking.allee))
                 let produit = {
                     etage: value.val().zoneProduitPicking.etage,
@@ -97,18 +116,21 @@ function makeSteps(commandes, callback) {
                 }
                 i++;
                 if (i < keys.length) {
-                   return make(keys, i, steps, produits)
+                    return make(keys, i, steps, produits)
                 } else {
-                   return events.emit("MAKE_STEPS_FINISH", steps)
+                    return events.emit("MAKE_STEPS_FINISH", steps)
                 }
             }
         ).catch(error => console.log(error)))
         make(keys, i, steps, produits);
     }
 }
+/**
+ *  On regrouppe les produits des commandes
+ * @param {*} commandes 
+ */
 function getProduits(commandes) {
     let produits = {}
-    console.log(commandes);
     let keys = Object.keys(commandes)
     for (let i = 0; i < keys.length; i++) {
         produitKeys = Object.keys(commandes[keys[i]].produit);
@@ -122,7 +144,14 @@ function getProduits(commandes) {
     }
     return produits;
 }
-function getSteps(allplace, lieu) {
+
+/**
+ * On ordonne les steps selon le probleme du voyageur de commmerce en rajoutant une notion d'energie(poids que l'on transporte pour aller 
+ * d'un point i vers un point j)
+ * @param {*} allplace 
+ * @param {*} lieu 
+ */
+function orderSteps(allplace, lieu) {
     steps = []
     steps.push(lieu[0])
     lieu = lieu.filter((item, key) => key !== 0);
@@ -139,19 +168,47 @@ function getSteps(allplace, lieu) {
     events.emit("STEPS_ORDER_FINISH", steps)
 }
 
+/**
+ * On regarde le plus cours chemin pour aller d'un point i vers un point j selon la distance mais aussi selon
+ * leur poids
+ * @param {*} allplace 
+ * @param {*} debut 
+ * @param {*} vers 
+ */
 function pCChemin(allplace, debut, vers) {
     proche = null
     min = -1
     for (let i = 1; i < vers.length; i++) {
-        allee = allplace["allee"][debutAllee.allee]
-        section = allee["section"][debutAllee.section]
+        allee = allplace["allee"][debut.allee]
+        section = allee["section"][debut.section]
         Secvers = section["vers"]
         versAllee = Secvers["allee"][vers[i].allee]
         versSection = (versAllee) ? versAllee["section"][vers[i].section] : null;
-        if (versSection !== null && (min === -1 || min > versSection)) {
+        /**
+         * On regarde est ce que la distance plus le poids est inferieur au minimum pris avant
+         */
+        if (versSection !== null && (min === -1 || min > (versSection + vers[i].poids))) {
             proche = i;
-            min = versSection;
+            min = versSection + vers[i].poids;
         }
     }
     return proche
+}
+
+/**
+ * On enregistre les commandes ordonnées  en plusieurs etapes
+ * @param {*} user 
+ * @param {*} steps 
+ * @param {*} commandes 
+ */
+function send(user, steps, commandes) {
+    keyCommandes = commandes.map(item => item.key)
+    updates = {}
+    for (key in keyCommandes)
+        updates["commande/" + keyCommandes[key] + "/preparateur/"] = user
+    admin.database().ref('preparateur/' + user + '/regroupementCommande').push({
+        commande: keyCommandes,
+        steps: steps
+    })
+    admin.database().ref().update(updates)
 }

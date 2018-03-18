@@ -24,7 +24,7 @@ const produit = {
             //int
             "etage":1,
             //int
-            "etageSection":2,
+            "etageSection":1,
             "quantite":2
         },
         //string
@@ -55,7 +55,7 @@ const produit = {
             //int
             "allee": 1,
             //int
-            "section":2,
+            "section":1,
             //int
             "etage":1,
             //int
@@ -93,7 +93,7 @@ const produit = {
             //int
             "etage":1,
             //int
-            "etageSection":2,
+            "etageSection":1,
             "quantite":5
         },
         //string
@@ -122,11 +122,11 @@ const produit = {
             //int
             "allee": 2,
             //int
-            "section":2,
+            "section":1,
             //int
             "etage":1,
             //int
-            "etageSection":1,
+            "etageSection":2,
             "quantite":15
         },
         //string

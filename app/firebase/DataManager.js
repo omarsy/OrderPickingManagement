@@ -119,7 +119,7 @@ class DataManager {
                 id + '/quantitePrise'] = this.currentStep.produits[id].quantitePrise + 1
 
             firebase.database().ref(urlQuantite).once('value').then(function (snapshot) {
-                update[urlQuantite] = snapshot.val() - 1;
+                update[urlQuantite] =(snapshot.val() == 0)? 0: (snapshot.val() - 1);
                 firebase.database().ref().update(update);
             });
         } else {

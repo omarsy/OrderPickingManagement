@@ -5,22 +5,21 @@ const commande = {
             "prod0": {
                 quantite: 2,
             }
-        },
-        preparateur:"QIAzC8BtHDYjeRsE7poDmbQVPd53"
+        }
     },
     "com1": {
-        poids: 40,
+        poids: 24,
         produit: {
             "prod1": {
-                quantite: 3,
+                quantite: 2,
             }
         },
     },
     "com2": {
-        poids: 36,
+        poids: 12,
         produit: {
             "prod2": {
-                quantite: 5,
+                quantite: 1,
             }
         },
     },

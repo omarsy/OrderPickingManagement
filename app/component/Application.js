@@ -6,7 +6,6 @@ import Home from './Home'
 import Icon from 'react-native-fa-icons';
 import TabNavigator from 'react-native-tab-navigator';
 import DataManager from '../firebase/DataManager';
-
 class Application extends Component {
   constructor(props) {
     super(props);
